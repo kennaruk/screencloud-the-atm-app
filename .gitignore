@@ -1,0 +1,11 @@
+node_modules
+_site
+_optimized
+public
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/site-generator.iml
+/.idea/vcs.xml
+/.idea/workspace.xml
+yarn-error.log
+.DS_Store
