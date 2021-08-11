@@ -1,33 +1,47 @@
+import { createRef, useEffect, useState } from "react";
 import _, { isInteger } from "lodash";
-import { createRef } from "react";
-import { useState } from "react";
+
+import UserRepository from "../repository/user.repository";
+import history from "../history";
 
 const PinCode: React.FC = () => {
   const pinLength: number = 4;
+
   const [pinValues, setpinValues] = useState<string[]>(
     new Array(pinLength).fill("")
   );
   const [elRefs] = useState<React.RefObject<HTMLInputElement>[]>(
     _.range(pinLength).map((_) => createRef())
   );
+  const [error, seterror] = useState<string>("");
+  const [loading, setloading] = useState<boolean>(false);
 
   const resetValue = (i: number) => {
     const newPinValues = pinValues.slice();
 
-    for (; i < pinLength; i++) {
-      newPinValues[i] = "";
+    for (let j = i; j < pinLength; j++) {
+      newPinValues[j] = "";
     }
 
     setpinValues(newPinValues);
+    elRefs[i].current?.focus();
   };
+
+  useEffect(() => {
+    const isValidPin =
+      pinValues.filter((s) => s !== "").join("").length === pinLength;
+    if (isValidPin) {
+      checkPin();
+    }
+  }, [pinValues]);
 
   const onKeyUp = (i: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     const newPinValues = pinValues.slice();
+
     if (isInteger(+e.key)) {
       newPinValues[i] = e.key;
       stepForward(i);
     } else if (e.key === "Backspace") {
-      console.log("[debug] Backspace");
       newPinValues[i] = "";
       stepBack(i);
     }
@@ -39,8 +53,6 @@ const PinCode: React.FC = () => {
       return;
     }
     elRefs[i + 1].current?.focus();
-
-    checkPin();
   };
 
   const stepBack = (i: number) => {
@@ -50,18 +62,21 @@ const PinCode: React.FC = () => {
     elRefs[i - 1].current?.focus();
   };
 
-  const checkPin = () => {
-    // let code = ''
-    // for (i = 0; i < this.pinlength; i++) {
-    //     code = code + document.getElementById(`codefield_${i}`).value
-    // }
-    // if (code.length == this.pinlength) {
-    //     this.validatePin(code)
-    // }
-  };
-  const validatePin = (code: string) => {
-    // Check pin on server
-    if (code == "1234") alert("success");
+  const checkPin = async () => {
+    setloading(true);
+    seterror("");
+
+    const repository = new UserRepository();
+    const response = await repository.login(pinValues.join(""));
+
+    if (response.status === 200) {
+      history.push("/atm");
+    } else {
+      seterror(response.data.error ?? "");
+      resetValue(0);
+    }
+
+    setloading(false);
   };
 
   return (
@@ -85,6 +100,26 @@ const PinCode: React.FC = () => {
             />
           ))}
         </div>
+        {loading && (
+          <div className="flex justify-center items-center space-x-1 text-sm text-gray-700">
+            <svg
+              fill="none"
+              className="w-6 h-6 animate-spin"
+              viewBox="0 0 32 32"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M15.165 8.53a.5.5 0 01-.404.58A7 7 0 1023 16a.5.5 0 011 0 8 8 0 11-9.416-7.874.5.5 0 01.58.404z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+            </svg>
+
+            <div>Loading ...</div>
+          </div>
+        )}
+        {error && <span className="px-2 text-red-700"> {error} </span>}
       </div>
     </div>
   );

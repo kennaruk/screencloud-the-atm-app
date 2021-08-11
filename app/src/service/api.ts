@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost",
+  baseURL: "https://frontend-challenge.screencloud-michael.vercel.app/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -15,6 +15,7 @@ const api = axios.create({
       return JSON.parse(data);
     },
   ],
+  validateStatus: () => true,
 });
 
 export default api;

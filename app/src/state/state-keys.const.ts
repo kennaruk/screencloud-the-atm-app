@@ -1,5 +1,6 @@
 export const StateKeys = {
-  Todo: "1",
+  Bank: "1",
+  User: "2",
 };
 
 Object.freeze(StateKeys);
