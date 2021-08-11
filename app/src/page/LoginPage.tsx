@@ -2,9 +2,9 @@ import { createRef, useEffect, useState } from "react";
 import _, { isInteger } from "lodash";
 
 import UserRepository from "../repository/user.repository";
-import history from "../history";
+import { RouteComponentProps } from "react-router-dom";
 
-const PinCode: React.FC = () => {
+const PinCode: React.FC<RouteComponentProps> = ({ history }) => {
   const pinLength: number = 4;
 
   const [pinValues, setpinValues] = useState<string[]>(
@@ -70,7 +70,7 @@ const PinCode: React.FC = () => {
     const response = await repository.login(pinValues.join(""));
 
     if (response.status === 200) {
-      history.push("/atm");
+      return history.push("/atm");
     } else {
       seterror(response.data.error ?? "");
       resetValue(0);
@@ -97,6 +97,7 @@ const PinCode: React.FC = () => {
               inputMode="decimal"
               onKeyUp={(e) => onKeyUp(i, e)}
               onFocus={() => resetValue(i)}
+              onChange={(_) => {}}
             />
           ))}
         </div>
@@ -109,10 +110,10 @@ const PinCode: React.FC = () => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                clip-rule="evenodd"
+                clipRule="evenodd"
                 d="M15.165 8.53a.5.5 0 01-.404.58A7 7 0 1023 16a.5.5 0 011 0 8 8 0 11-9.416-7.874.5.5 0 01.58.404z"
                 fill="currentColor"
-                fill-rule="evenodd"
+                fillRule="evenodd"
               />
             </svg>
 
@@ -125,12 +126,12 @@ const PinCode: React.FC = () => {
   );
 };
 
-const LoginPage: React.FC = () => {
+const LoginPage: React.FC<RouteComponentProps> = (props) => {
   return (
     <div
       className="fixed w-full h-full inset-0 flex flex-col items-center justify-center"
       style={{
-        backgroundImage: `url("https://wallpapercave.com/wp/wp7777992.jpg")`,
+        backgroundImage: `url("https://tailwindui.com/img/beams-corner-light.jpg")`,
       }}
     >
       <div className="flex">
@@ -141,7 +142,7 @@ const LoginPage: React.FC = () => {
         />
       </div>
       <p className="py-4">Welcome back! A,</p>
-      <PinCode />;
+      <PinCode {...props} />;
     </div>
   );
 };
