@@ -7,14 +7,14 @@ import { RouteComponentProps } from "react-router-dom";
 const PinCode: React.FC<RouteComponentProps> = ({ history }) => {
   const pinLength: number = 4;
 
-  const [pinValues, setpinValues] = useState<string[]>(
+  const [pinValues, setPinValues] = useState<string[]>(
     new Array(pinLength).fill("")
   );
   const [elRefs] = useState<React.RefObject<HTMLInputElement>[]>(
     _.range(pinLength).map((_) => createRef())
   );
-  const [error, seterror] = useState<string>("");
-  const [loading, setloading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const resetValue = (i: number) => {
     const newPinValues = pinValues.slice();
@@ -23,7 +23,7 @@ const PinCode: React.FC<RouteComponentProps> = ({ history }) => {
       newPinValues[j] = "";
     }
 
-    setpinValues(newPinValues);
+    setPinValues(newPinValues);
     elRefs[i].current?.focus();
   };
 
@@ -45,7 +45,7 @@ const PinCode: React.FC<RouteComponentProps> = ({ history }) => {
       newPinValues[i] = "";
       stepBack(i);
     }
-    setpinValues(newPinValues);
+    setPinValues(newPinValues);
   };
 
   const stepForward = (i: number) => {
@@ -63,8 +63,8 @@ const PinCode: React.FC<RouteComponentProps> = ({ history }) => {
   };
 
   const checkPin = async () => {
-    setloading(true);
-    seterror("");
+    setLoading(true);
+    setError("");
 
     const repository = new UserRepository();
     const response = await repository.login(pinValues.join(""));
@@ -72,11 +72,11 @@ const PinCode: React.FC<RouteComponentProps> = ({ history }) => {
     if (response.status === 200) {
       return history.push("/atm");
     } else {
-      seterror(response.data.error ?? "");
+      setError(response.data.error ?? "");
       resetValue(0);
     }
 
-    setloading(false);
+    setLoading(false);
   };
 
   return (

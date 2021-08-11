@@ -9,6 +9,6 @@ export interface UserState {
 export const userState = atom<UserState>({
   key: StateKeys.User,
   default: {
-    currentBalance: 0,
+    currentBalance: 2200,
   },
 });
