@@ -60,18 +60,21 @@ const WithdrawInput: React.FC = () => {
 };
 
 const LoginPage: React.FC = () => {
-  const { toWithdrawAmount } = useUser();
+  const { toWithdrawAmount, setToWithdrawAmount } = useUser();
   const { withdraw } = useBank();
 
   const onWithdraw = () => {
     const notes = withdraw(toWithdrawAmount);
     if (notes === null) {
-      toast(`Don't have enough notes to withdraw £${toWithdrawAmount}`, { autoClose: false});
+      toast(`Don't have enough notes to withdraw £${toWithdrawAmount}`, {
+        autoClose: false,
+      });
 
       return;
     }
 
-    toast(bankNotesToWithdrawMessage(notes), { autoClose: false});
+    toast(bankNotesToWithdrawMessage(notes), { autoClose: false });
+    setToWithdrawAmount("");
   };
 
   return (
