@@ -82,6 +82,7 @@ const LoginPage: React.FC = () => {
       className="fixed w-full h-full inset-0 flex flex-col items-center justify-center"
       style={{
         backgroundImage: `url("https://tailwindui.com/img/beams-corner-light.jpg")`,
+        backgroundSize: 'cover'
       }}
     >
       <div className="w-1/2">
