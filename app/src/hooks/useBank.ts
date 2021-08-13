@@ -3,6 +3,7 @@ import _ from "lodash";
 
 import { bankState, BankNotes } from "./../state/bank.state";
 import { combinationSum } from "../util/util";
+import useUser from "./useUser";
 
 const getBankNotesByWithdrawAmount = (
   availableNotes: BankNotes,
@@ -62,6 +63,8 @@ export const bankNotesToWithdrawMessage = (bankNotes: BankNotes) => {
 export default () => {
   const bank = useRecoilValue(bankState);
   const setBank = useSetRecoilState(bankState);
+  
+  const { setUser } = useUser();
 
   const withdraw = (amount: number) => {
     const result = getBankNotesByWithdrawAmount(bank.availableNotes, amount);
@@ -78,6 +81,10 @@ export default () => {
     setBank((prev) => ({
         ...prev,
         availableNotes
+    }))
+    setUser((prev) => ({
+        ...prev,
+        currentBalance: prev.currentBalance - amount
     }))
 
     return result;

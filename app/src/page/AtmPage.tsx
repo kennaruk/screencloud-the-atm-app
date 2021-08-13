@@ -66,7 +66,7 @@ const LoginPage: React.FC = () => {
   const onWithdraw = () => {
     const notes = withdraw(toWithdrawAmount);
     if (notes === null) {
-      toast(`Don't have enough notes to withdraw £${toWithdrawAmount}`, {
+      toast(`Don't have enough notes to withdraw £${toWithdrawAmount.toLocaleString()}`, {
         autoClose: false,
       });
 

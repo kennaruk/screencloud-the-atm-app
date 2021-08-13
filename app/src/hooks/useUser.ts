@@ -37,6 +37,7 @@ export default () => {
 
   return {
     user,
+    setUser,
     setToWithdrawAmount,
     toWithdrawAmount: getToWithdrawAmount(),
   };
