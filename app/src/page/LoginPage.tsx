@@ -87,7 +87,7 @@ const PinCode: React.FC<RouteComponentProps> = ({ history }) => {
           {_.range(pinLength).map((i) => (
             <input
               ref={elRefs[i]}
-              autoFocus={i == 0}
+              autoFocus={i === 0}
               key={`codefield_${i}`}
               className="h-16 w-12 border mx-2 rounded-lg flex items-center text-center font-thin text-3xl"
               value={pinValues[i]}

@@ -57,6 +57,7 @@
     "@types/uuid": "^8.3.1",
     "autoprefixer": "^9",
     "postcss": "^7",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
+    "ts-node": "^10.2.0"
   }
 }
