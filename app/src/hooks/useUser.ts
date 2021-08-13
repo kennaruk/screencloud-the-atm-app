@@ -1,7 +1,6 @@
 import { userState } from "./../state/user.state";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-interface IProps {}
 
 export default () => {
   const user = useRecoilValue(userState);

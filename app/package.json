@@ -29,7 +29,8 @@
     "build": "craco build",
     "test": "jest",
     "test-coverage": "jest --coverage",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "firebase deploy"
   },
   "eslintConfig": {
     "extends": [
